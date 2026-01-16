@@ -73,7 +73,7 @@ fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
                         end.linkTo(parent.end, margin = 200.dp)
                     }.size(60.dp), alpha = 1f
                 )
-                Button(onClick = { navController.navigate(Routes.ScreenGame.route) }, modifier = Modifier.constrainAs(btn1Ref){
+                Button(onClick = { navController.navigate("GameScreen")  }, modifier = Modifier.constrainAs(btn1Ref){
                     start.linkTo(iconGame.end, margin = 25.dp)
                     top.linkTo(Logo.bottom)
                 }.width(120.dp)
@@ -87,7 +87,7 @@ fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
                     end.linkTo(parent.end, margin = 200.dp)
                 }.size(60.dp), alpha = 1f
             )
-            Button(onClick = { navController.navigate(Routes.ScreenGame.route) }, modifier = Modifier.constrainAs(btn2Ref){
+            Button(onClick = { navController.navigate(Routes.GameScreen.route) }, modifier = Modifier.constrainAs(btn2Ref){
                 start.linkTo(iconSettings.end, margin = 25.dp)
                 top.linkTo(iconGame.bottom, margin = 55.dp)
             } .width(120.dp)
