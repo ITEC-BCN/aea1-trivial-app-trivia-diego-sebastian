@@ -7,5 +7,6 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="FondoToolBar">#FFB0FFE6</color>
+    <color name="FondoToolBar">#3E62A3</color>
+    <color name="Fondo">#FFD054</color>
 </resources>
