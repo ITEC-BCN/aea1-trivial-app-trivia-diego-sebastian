@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.trivialapp_base.ui.theme.TrivialAPP_BaseTheme
 import com.example.trivialapp_base.view.MenuScreen
+import com.example.trivialapp_base.view.ResultScreen
 import com.example.trivialapp_base.viewmodel.GameViewModel
 
 class MainActivity : ComponentActivity() {
@@ -43,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
                 }*/
                 MenuScreen(navigationController, viewModel)
-
+                //ResultScreen(navigationController, viewModel)
 
             }
         }
