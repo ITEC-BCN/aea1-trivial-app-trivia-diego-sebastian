@@ -42,6 +42,9 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.trivialapp_base.R
 import com.example.trivialapp_base.Routes
+import com.example.trivialapp_base.model.Pregunta
+import kotlin.random.Random
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(navController: NavController, viewModel: GameViewModel) {
@@ -49,7 +52,15 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel) {
         var countAccert = rememberSaveable{mutableStateOf(0)}
         val preguntas = remember { ProveedorPreguntas.obtenerPreguntas() }
         val indice = rememberSaveable { mutableStateOf(0) }
-         val preguntaActual = preguntas[indice.value]
+        val preguntaActual = preguntas[indice.value]
+        val respuestasAleatorias = rememberSaveable(indice.value) {
+            listOf(
+                preguntaActual.respuesta1,
+                preguntaActual.respuesta2,
+                preguntaActual.respuesta3,
+                preguntaActual.respuesta4
+            ).shuffled()
+        }
 
     Scaffold(
         topBar = {
@@ -81,23 +92,33 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel) {
                     end.linkTo(parent.end)
                 }) {
                     Column() {
-                        Button(onClick = { /* comprobar respuesta */ }) {
-                            Text(preguntaActual.respuesta1)
+                        Button(onClick = { ComprobarRespuesta(respuestasAleatorias[0], preguntaActual) }) {
+                            Text(respuestasAleatorias[0])
                         }
-                        Button(onClick = { }) {
-                            Text(preguntaActual.respuesta2)
+
+                        Button(onClick = { ComprobarRespuesta(respuestasAleatorias[1], preguntaActual) }) {
+                            Text(respuestasAleatorias[1])
                         }
                     }
                     Column() {
-                        Button(onClick = { }) {
-                        Text(preguntaActual.respuesta3)
-                    }
-                        Button(onClick = { }) {
-                            Text(preguntaActual.respuesta4)
-                        } }
+                        Button(onClick = { ComprobarRespuesta(respuestasAleatorias[2], preguntaActual) }) {
+                            Text(respuestasAleatorias[2])
+                        }
+
+                        Button(onClick = { ComprobarRespuesta(respuestasAleatorias[3], preguntaActual) }) {
+                            Text(respuestasAleatorias[3])
+                        }}
 
             }
         }
     }
 
+}
+
+fun ComprobarRespuesta(respuestaSeleccionada: String, pregunta: Pregunta) {
+    if (respuestaSeleccionada == pregunta.respuestaCorrecta) {
+        println("Correcta")
+    } else {
+        println("Incorrecta")
+    }
 }

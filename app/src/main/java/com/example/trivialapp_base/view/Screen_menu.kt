@@ -61,7 +61,7 @@ fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
                     top.linkTo(parent.top,margin = 20.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                }.size(400.dp))
+                }.size(250.dp))
 
 
                 Image(
