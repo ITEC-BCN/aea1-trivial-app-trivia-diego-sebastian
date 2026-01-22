@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
                 }*/
                 MenuScreen(navigationController, viewModel)
-                //ResultScreen(navigationController, viewModel)
+
 
             }
         }
