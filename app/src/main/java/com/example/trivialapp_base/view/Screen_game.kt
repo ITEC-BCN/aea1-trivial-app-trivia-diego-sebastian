@@ -49,10 +49,11 @@ import kotlin.random.Random
 @Composable
 fun GameScreen(navController: NavController, viewModel: GameViewModel) {
         var countrondas by rememberSaveable {mutableStateOf(0)}
-        var countAccert = rememberSaveable{mutableStateOf(0)}
+        var contadorAccert = rememberSaveable{mutableStateOf(0)}
         val preguntas = remember { ProveedorPreguntas.obtenerPreguntas() }
         val indice = rememberSaveable { mutableStateOf(0) }
         val preguntaActual = preguntas[indice.value]
+
         val respuestasAleatorias = rememberSaveable(indice.value) {
             listOf(
                 preguntaActual.respuesta1,
@@ -61,6 +62,7 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel) {
                 preguntaActual.respuesta4
             ).shuffled()
         }
+        var msgRespuesta by rememberSaveable{mutableStateOf( " ") }
 
     Scaffold(
         topBar = {
@@ -77,7 +79,7 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel) {
             .padding(innerPadding).background(colorResource(id = R.color.Fondo))
         )  {
 
-            val(pregunta,sectionBtn) = createRefs()
+            val(pregunta,sectionBtn,sectionMsg) = createRefs()
 
                 Text(text = preguntaActual.pregunta , modifier = Modifier.constrainAs(pregunta){
                     top.linkTo(parent.top, margin = 60.dp)
@@ -92,33 +94,56 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel) {
                     end.linkTo(parent.end)
                 }) {
                     Column() {
-                        Button(onClick = { ComprobarRespuesta(respuestasAleatorias[0], preguntaActual) }) {
+                        Button(onClick = { msgRespuesta = ComprobarRespuesta(respuestasAleatorias[0], preguntaActual)
+                            countrondas++},
+                            Modifier.width(120.dp)
+                                .height(70.dp)) {
                             Text(respuestasAleatorias[0])
                         }
 
-                        Button(onClick = { ComprobarRespuesta(respuestasAleatorias[1], preguntaActual) }) {
+                        Button(onClick = { msgRespuesta = ComprobarRespuesta(respuestasAleatorias[1], preguntaActual)
+                            countrondas++},
+                            Modifier.width(120.dp)
+                                .height(70.dp)
+                        ) {
                             Text(respuestasAleatorias[1])
                         }
                     }
                     Column() {
-                        Button(onClick = { ComprobarRespuesta(respuestasAleatorias[2], preguntaActual) }) {
+                        Button(onClick = { msgRespuesta = ComprobarRespuesta(respuestasAleatorias[2], preguntaActual)
+                        countrondas++},
+                            Modifier.width(120.dp)
+                            .height(70.dp)
+                        ) {
                             Text(respuestasAleatorias[2])
                         }
 
-                        Button(onClick = { ComprobarRespuesta(respuestasAleatorias[3], preguntaActual) }) {
+                        Button(onClick = { msgRespuesta =  ComprobarRespuesta(respuestasAleatorias[3], preguntaActual)
+                            countrondas++},
+                            Modifier.width(120.dp)
+                                .height(70.dp)) {
                             Text(respuestasAleatorias[3])
                         }}
+
+                }
+                Column(modifier = Modifier.constrainAs(sectionMsg){
+                    top.linkTo(sectionBtn.bottom, margin = 50.dp)
+                }) {
+                Text("$msgRespuesta")
+                 }
 
             }
         }
     }
 
-}
 
-fun ComprobarRespuesta(respuestaSeleccionada: String, pregunta: Pregunta) {
+
+fun ComprobarRespuesta(respuestaSeleccionada: String, pregunta: Pregunta): String {
+    var respuesta : String
     if (respuestaSeleccionada == pregunta.respuestaCorrecta) {
-        println("Correcta")
+        respuesta = "Respuesta Correcta"
     } else {
-        println("Incorrecta")
+        respuesta = "Respuesta Incorrecta"
     }
+    return respuesta
 }
