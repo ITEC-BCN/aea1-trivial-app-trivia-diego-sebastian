@@ -80,7 +80,7 @@ fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
                     .height(70.dp))  { Text("Game",fontSize = 18.sp)}
             Image(
                 painter = painterResource(id = R.drawable.baseline_settings_24),
-                contentDescription = "Settings",
+                contentDescription = "Dificultad",
                 modifier = Modifier.constrainAs(iconSettings) {
                     top.linkTo(iconGame.bottom, margin = 58.dp)
                     start.linkTo(parent.start,)
