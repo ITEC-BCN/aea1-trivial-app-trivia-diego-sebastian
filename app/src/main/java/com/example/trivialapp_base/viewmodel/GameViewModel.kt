@@ -9,7 +9,7 @@ import com.example.trivialapp_base.model.ProveedorPreguntas
 class GameViewModel : ViewModel() {
 
     private var preguntasPartida: List<Pregunta> = emptyList()
-
+    var   countrondas by mutableStateOf(0)
     var indicePreguntaActual by mutableIntStateOf(0)
         private set
 
@@ -35,6 +35,7 @@ class GameViewModel : ViewModel() {
         preguntasPartida = preguntas.shuffled()
         indicePreguntaActual = 0
         puntuacion = 0
+        countrondas = 0
         juegoTerminado = false
         cargarSiguientePregunta()
     }
@@ -71,6 +72,7 @@ class GameViewModel : ViewModel() {
     private fun avanzarRonda() {
         indicePreguntaActual++
         cargarSiguientePregunta()
+        countrondas++
     }
 
     private fun iniciarTimer() {
@@ -83,6 +85,8 @@ class GameViewModel : ViewModel() {
 
             override fun onFinish() {
                 tiempoRestante = 0f
+                avanzarRonda()
+
                 //TODO
             }
         }.start()

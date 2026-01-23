@@ -25,16 +25,15 @@ fun GameScreen(
     viewModel: GameViewModel = viewModel()
 ) {
 
-    var countrondas by rememberSaveable { mutableStateOf(0) }
+
     var msgRespuesta by mutableStateOf(" ")
 
     val preguntas = remember { ProveedorPreguntas.obtenerPreguntas() }
 
-    // 🔥 Inicia el juego SOLO una vez
     LaunchedEffect(Unit) {
         viewModel.iniciarJuego(preguntas)
     }
-    if(countrondas == 12)
+    if(viewModel.countrondas >= 12)
     {
         navController.navigate("ScreenResult")
     }
@@ -47,7 +46,7 @@ fun GameScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Rondas : ${countrondas}/12",
+                        "Rondas : ${viewModel.countrondas}/12",
                         fontFamily = FontFamily.Monospace
                     )
                 },
@@ -93,7 +92,6 @@ fun GameScreen(
                                 preguntaActual
                             )
                             viewModel.responderPregunta(respuestasAleatorias[0])
-                            countrondas++
                         },
                         modifier = Modifier
                             .width(120.dp)
@@ -109,7 +107,6 @@ fun GameScreen(
                                 preguntaActual
                             )
                             viewModel.responderPregunta(respuestasAleatorias[1])
-                            countrondas++
                         },
                         modifier = Modifier
                             .width(120.dp)
@@ -127,7 +124,6 @@ fun GameScreen(
                                 preguntaActual
                             )
                             viewModel.responderPregunta(respuestasAleatorias[2])
-                            countrondas++
                         },
                         modifier = Modifier
                             .width(120.dp)
@@ -143,7 +139,6 @@ fun GameScreen(
                                 preguntaActual
                             )
                             viewModel.responderPregunta(respuestasAleatorias[3])
-                            countrondas++
                         },
                         modifier = Modifier
                             .width(120.dp)
@@ -176,6 +171,7 @@ fun GameScreen(
             {
                 viewModel.puntuacion+1
             }
+
         }
     }
 }
