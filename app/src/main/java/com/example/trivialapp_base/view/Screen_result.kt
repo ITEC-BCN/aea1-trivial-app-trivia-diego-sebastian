@@ -1,6 +1,5 @@
 package com.example.trivialapp_base.view
 
-import android.R
 import android.text.style.BackgroundColorSpan
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,8 +38,6 @@ import com.example.trivialapp_base.viewmodel.GameViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultScreen(navController: NavController, viewModel: GameViewModel) {
-    var score = viewModel.puntuacion
-    val returnToMenu: () -> Unit
 
     Scaffold(
         topBar = {
@@ -67,14 +64,14 @@ fun ResultScreen(navController: NavController, viewModel: GameViewModel) {
                 )
             {
                 Text(
-                    text = "Your Score",
+                    text = "Puntuación",
                     fontSize = 35.sp,
                     fontWeight = FontWeight.Bold
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = "$score pts",
+                    text = "${viewModel.puntuacion} pts",
                     fontSize = 48.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.Magenta
@@ -96,10 +93,11 @@ fun ResultScreen(navController: NavController, viewModel: GameViewModel) {
 
                 Spacer(modifier = Modifier.height(20.dp))
                 Button(
-                    onClick = {navController.navigate("ScreenMenu")},
+                    onClick = {
+                        viewModel.resetJuego()
+                        navController.navigate("ScreenMenu") {popUpTo(Routes.ScreenResult.route) { inclusive = true }}},
                     modifier = Modifier.height(50.dp),
-                    shape = RoundedCornerShape(25)/*,
-            colors = ButtonDefaults.buttonColors(Color.Red)*/
+                    shape = RoundedCornerShape(25)
                 )
                 {
                     Text(

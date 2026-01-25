@@ -2,6 +2,7 @@ package com.example.trivialapp_base.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -86,17 +87,19 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel = viewMode
                     top.linkTo(pregunta.bottom, margin = 50.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                }
+                },
+                horizontalArrangement = Arrangement.spacedBy(40.dp)
             ) {
 
-                Column {
+                Column (verticalArrangement = Arrangement.spacedBy(20.dp)) {
                     Button(
                         onClick = {
                             viewModel.responderPregunta(respuestasAleatorias[0])
                         },
                         modifier = Modifier
                             .width(120.dp)
-                            .height(70.dp)
+                            .height(70.dp),
+                        shape = RoundedCornerShape(25)
                     ) {
                         Text(respuestasAleatorias[0])
                     }
@@ -107,21 +110,22 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel = viewMode
                         },
                         modifier = Modifier
                             .width(120.dp)
-                            .height(70.dp)
+                            .height(70.dp),
+                        shape = RoundedCornerShape(25)
                     ) {
                         Text(respuestasAleatorias[1])
                     }
                 }
-                Spacer(modifier = Modifier.height(20.dp))
 
-                Column {
+                Column (verticalArrangement = Arrangement.spacedBy(20.dp)) {
                     Button(
                         onClick = {
                             viewModel.responderPregunta(respuestasAleatorias[2])
                         },
                         modifier = Modifier
                             .width(120.dp)
-                            .height(70.dp)
+                            .height(70.dp),
+                        shape = RoundedCornerShape(25)
                     ) {
                         Text(respuestasAleatorias[2])
                     }
@@ -132,7 +136,8 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel = viewMode
                         },
                         modifier = Modifier
                             .width(120.dp)
-                            .height(70.dp)
+                            .height(70.dp),
+                        shape = RoundedCornerShape(25)
                     ) {
                         Text(respuestasAleatorias[3])
                     }

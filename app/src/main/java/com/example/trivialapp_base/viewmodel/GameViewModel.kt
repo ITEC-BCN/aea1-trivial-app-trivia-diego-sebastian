@@ -115,4 +115,18 @@ class GameViewModel : ViewModel() {
     fun setDificultad(dificultad: String) {
         dificultadSeleccionada = dificultad
     }
+
+    fun resetJuego() {
+        preguntasPartida = emptyList()
+        indicePreguntaActual = 0
+        countrondas = 0
+        puntuacion = 0
+        tiempoRestante = 1f
+        juegoTerminado = false
+        mensajeRespuesta = ""
+        timer?.cancel()
+        preguntaActual = null
+        respuestasMezcladas = emptyList()
+    }
+
 }
