@@ -82,4 +82,10 @@ object ProveedorPreguntas {
 
         )
     }
+
+    fun obtenerPreguntasPorDificultad(dificultad: String): List<Pregunta> {
+        return obtenerPreguntas().filter {
+            it.dificultad == dificultad
+        }
+    }
 }

@@ -14,29 +14,34 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.trivialapp_base.R
+import com.example.trivialapp_base.Routes
 import com.example.trivialapp_base.model.ProveedorPreguntas
 import com.example.trivialapp_base.model.Pregunta
 import com.example.trivialapp_base.viewmodel.GameViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GameScreen(
-    navController: NavController,
-    viewModel: GameViewModel = viewModel()
+fun GameScreen(navController: NavController, viewModel: GameViewModel = viewModel()
 ) {
 
-
-    var msgRespuesta by mutableStateOf(" ")
-
-    val preguntas = remember { ProveedorPreguntas.obtenerPreguntas() }
-
-    LaunchedEffect(Unit) {
-        viewModel.iniciarJuego(preguntas)
+    val preguntas = remember (viewModel.dificultadSeleccionada){
+        ProveedorPreguntas.obtenerPreguntasPorDificultad(viewModel.dificultadSeleccionada)
     }
-    if(viewModel.countrondas >= 12)
-    {
-        navController.navigate("ScreenResult")
+
+    LaunchedEffect(viewModel.preguntaActual) {
+        if (viewModel.preguntaActual == null) {
+            viewModel.iniciarJuego(preguntas.take(12))
+        }
     }
+
+    LaunchedEffect(viewModel.juegoTerminado) {
+        if (viewModel.juegoTerminado) {
+            navController.navigate("ScreenResult") {
+                popUpTo(Routes.GameScreen.route) { inclusive = true }
+            }
+        }
+    }
+
 
     val preguntaActual = viewModel.preguntaActual ?: return
     val respuestasAleatorias = viewModel.respuestasMezcladas
@@ -46,7 +51,7 @@ fun GameScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Rondas : ${viewModel.countrondas}/12",
+                        "Rondas : ${viewModel.indicePreguntaActual +1}/12",
                         fontFamily = FontFamily.Monospace
                     )
                 },
@@ -87,10 +92,6 @@ fun GameScreen(
                 Column {
                     Button(
                         onClick = {
-                            msgRespuesta = ComprobarRespuesta(
-                                respuestasAleatorias[0],
-                                preguntaActual
-                            )
                             viewModel.responderPregunta(respuestasAleatorias[0])
                         },
                         modifier = Modifier
@@ -102,10 +103,6 @@ fun GameScreen(
 
                     Button(
                         onClick = {
-                            msgRespuesta = ComprobarRespuesta(
-                                respuestasAleatorias[1],
-                                preguntaActual
-                            )
                             viewModel.responderPregunta(respuestasAleatorias[1])
                         },
                         modifier = Modifier
@@ -120,10 +117,6 @@ fun GameScreen(
                 Column {
                     Button(
                         onClick = {
-                            msgRespuesta = ComprobarRespuesta(
-                                respuestasAleatorias[2],
-                                preguntaActual
-                            )
                             viewModel.responderPregunta(respuestasAleatorias[2])
                         },
                         modifier = Modifier
@@ -135,10 +128,6 @@ fun GameScreen(
 
                     Button(
                         onClick = {
-                            msgRespuesta = ComprobarRespuesta(
-                                respuestasAleatorias[3],
-                                preguntaActual
-                            )
                             viewModel.responderPregunta(respuestasAleatorias[3])
                         },
                         modifier = Modifier
@@ -161,30 +150,13 @@ fun GameScreen(
             )
 
             Text(
-                text = msgRespuesta,
+                text = viewModel.mensajeRespuesta,
                 modifier = Modifier.constrainAs(sectionMsg) {
                     start.linkTo(parent.start, margin = 120.dp)
                     top.linkTo(sectionLineal.bottom, margin = 20.dp)
                 }
             )
 
-            if(msgRespuesta == "Respuesta Correcta")
-            {
-                viewModel.puntuacion+1
-            }
-
         }
     }
-}
-
-fun ComprobarRespuesta(respuestaSeleccionada: String, pregunta: Pregunta): String {
-    var respuesta : String
-    if (respuestaSeleccionada == pregunta.respuestaCorrecta)
-    {
-        respuesta = "Respuesta Correcta"
-    }
-    else {
-        respuesta = "Respuesta Incorrecta"
-    }
-    return respuesta
 }

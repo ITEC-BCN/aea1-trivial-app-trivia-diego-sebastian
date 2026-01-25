@@ -31,6 +31,10 @@ class GameViewModel : ViewModel() {
     var dificultadSeleccionada by mutableStateOf("Facil")
         private set
 
+    var mensajeRespuesta by mutableStateOf("")
+        private set
+
+
     private var timer: CountDownTimer? = null
     private val TIEMPO_POR_PREGUNTA = 10_000L
 
@@ -65,7 +69,15 @@ class GameViewModel : ViewModel() {
     fun responderPregunta(respuestaUsuario: String) {
         timer?.cancel()
 
-        if (respuestaUsuario == preguntaActual?.respuestaCorrecta) {
+        mensajeRespuesta =
+        if (respuestaUsuario == preguntaActual?.respuestaCorrecta)
+            "Respuesta Correcta"
+
+        else
+            "Respuesta Incorrecta"
+
+        if (respuestaUsuario == preguntaActual?.respuestaCorrecta)
+        {
             puntuacion++
         }
 
