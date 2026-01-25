@@ -115,6 +115,7 @@ fun GameScreen(
                         Text(respuestasAleatorias[1])
                     }
                 }
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Column {
                     Button(

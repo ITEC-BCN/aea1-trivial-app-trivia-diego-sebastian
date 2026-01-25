@@ -28,6 +28,9 @@ class GameViewModel : ViewModel() {
     var juegoTerminado by mutableStateOf(false)
         private set
 
+    var dificultadSeleccionada by mutableStateOf("Facil")
+        private set
+
     private var timer: CountDownTimer? = null
     private val TIEMPO_POR_PREGUNTA = 10_000L
 
@@ -95,5 +98,9 @@ class GameViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         timer?.cancel()
+    }
+
+    fun setDificultad(dificultad: String) {
+        dificultadSeleccionada = dificultad
     }
 }

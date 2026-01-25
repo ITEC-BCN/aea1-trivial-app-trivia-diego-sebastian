@@ -15,12 +15,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.colorResource
@@ -38,6 +45,7 @@ import com.example.trivialapp_base.viewmodel.GameViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
+    var expanded: Boolean by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -54,7 +62,7 @@ fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
                 .fillMaxSize()
                 .padding(innerPadding).background(colorResource(id = R.color.Fondo))
         ) {
-            val (Logo,iconGame,btn1Ref,iconSettings, btn2Ref) = createRefs()
+            val (Logo,iconGame,btn1Ref,iconSettings, btn2Ref, difficultyMenu) = createRefs()
 
             Image(painter = painterResource(id = R.drawable.trivial_icon), contentDescription = "LogoApp",
                 Modifier.constrainAs(Logo){
@@ -63,41 +71,62 @@ fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
                     end.linkTo(parent.end)
                 }.size(250.dp))
 
+            Image(
+                painter = painterResource(id = R.drawable.baseline_videogame_asset_24),
+                contentDescription = "Start",
+                modifier = Modifier.constrainAs(iconGame) {
+                    top.linkTo(Logo.bottom , margin = 5.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end, margin = 200.dp)}
+                    .size(60.dp), alpha = 1f)
 
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_videogame_asset_24),
-                    contentDescription = "Start",
-                    modifier = Modifier.constrainAs(iconGame) {
-                        top.linkTo(Logo.bottom , margin = 5.dp)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end, margin = 200.dp)
-                    }.size(60.dp), alpha = 1f
-                )
-                Button(onClick = { navController.navigate("GameScreen")  }, modifier = Modifier.constrainAs(btn1Ref){
+            Button(
+                onClick = { navController.navigate("GameScreen")  },
+                modifier = Modifier.constrainAs(btn1Ref){
                     start.linkTo(iconGame.end, margin = 25.dp)
-                    top.linkTo(Logo.bottom)
-                }.width(120.dp)
-                    .height(70.dp))  { Text("Game",fontSize = 18.sp)}
+                    top.linkTo(Logo.bottom)}
+                    .width(120.dp)
+                    .height(70.dp))  { Text("Game",fontSize = 16.sp)}
+
             Image(
                 painter = painterResource(id = R.drawable.baseline_settings_24),
                 contentDescription = "Dificultad",
                 modifier = Modifier.constrainAs(iconSettings) {
                     top.linkTo(iconGame.bottom, margin = 58.dp)
                     start.linkTo(parent.start,)
-                    end.linkTo(parent.end, margin = 200.dp)
-                }.size(60.dp), alpha = 1f
+                    end.linkTo(parent.end, margin = 200.dp)}
+                    .size(60.dp), alpha = 1f
             )
-            Button(onClick = { navController.navigate(Routes.GameScreen.route) }, modifier = Modifier.constrainAs(btn2Ref){
-                start.linkTo(iconSettings.end, margin = 25.dp)
-                top.linkTo(iconGame.bottom, margin = 55.dp)
-            } .width(120.dp)
-                .height(70.dp)) { Text("Settings", fontSize = 18.sp)}
 
+            Box(
+                modifier = Modifier.constrainAs(difficultyMenu) {
+                    start.linkTo(iconSettings.end, margin = 25.dp)
+                    top.linkTo(iconGame.bottom, margin = 55.dp)
+                }
+            )
+            {
+            Button(
+                onClick = {expanded = true},
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(70.dp))
+            { Text(viewModel.dificultadSeleccionada, fontSize = 16.sp)}
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                listOf("Facil", "Medio", "Dificil").forEach { difficulty ->
+                    DropdownMenuItem(
+                        text = { Text(difficulty) },
+                        onClick = {
+                            expanded = false
+                            viewModel.setDificultad(difficulty)
+                        })
+                }}
+            }
         }
-
     }
-
-
 }
 
 
