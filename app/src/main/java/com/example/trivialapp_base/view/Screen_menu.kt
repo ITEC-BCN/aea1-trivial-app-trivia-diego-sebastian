@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -50,7 +51,7 @@ fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Trivial", fontFamily = FontFamily.Monospace) },
+                title = { Text("Trivial", fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold) },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = colorResource(id = R.color.FondoToolBar)
                 )
@@ -62,14 +63,14 @@ fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
                 .fillMaxSize()
                 .padding(innerPadding).background(colorResource(id = R.color.Fondo))
         ) {
-            val (Logo,iconGame,btn1Ref,iconSettings, btn2Ref, difficultyMenu) = createRefs()
+            val (Logo,iconGame,btn1Ref,iconSettings,  difficultyMenu) = createRefs()
 
             Image(painter = painterResource(id = R.drawable.trivial_icon), contentDescription = "LogoApp",
                 Modifier.constrainAs(Logo){
                     top.linkTo(parent.top,margin = 20.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                }.size(250.dp))
+                }.size(350.dp))
 
             Image(
                 painter = painterResource(id = R.drawable.baseline_videogame_asset_24),

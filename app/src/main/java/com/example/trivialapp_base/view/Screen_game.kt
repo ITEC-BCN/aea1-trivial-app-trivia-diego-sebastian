@@ -7,8 +7,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -53,7 +56,7 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel = viewMode
                 title = {
                     Text(
                         "Rondas : ${viewModel.indicePreguntaActual +1}/12",
-                        fontFamily = FontFamily.Monospace
+                        fontFamily = FontFamily.Monospace,  fontWeight = FontWeight.Bold
                     )
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -78,8 +81,8 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel = viewMode
                     top.linkTo(parent.top, margin = 60.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                },
-                fontSize = 25.sp
+                }.padding(horizontal = 25.dp),
+                fontSize = 25.sp, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold
             )
 
             Row(
@@ -101,7 +104,7 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel = viewMode
                             .height(70.dp),
                         shape = RoundedCornerShape(25)
                     ) {
-                        Text(respuestasAleatorias[0])
+                        Text(respuestasAleatorias[0], fontWeight = FontWeight.Bold)
                     }
 
                     Button(
@@ -127,7 +130,7 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel = viewMode
                             .height(70.dp),
                         shape = RoundedCornerShape(25)
                     ) {
-                        Text(respuestasAleatorias[2])
+                        Text(respuestasAleatorias[2], fontWeight = FontWeight.Bold)
                     }
 
                     Button(
@@ -139,7 +142,7 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel = viewMode
                             .height(70.dp),
                         shape = RoundedCornerShape(25)
                     ) {
-                        Text(respuestasAleatorias[3])
+                        Text(respuestasAleatorias[3], fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -159,7 +162,7 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel = viewMode
                 modifier = Modifier.constrainAs(sectionMsg) {
                     start.linkTo(parent.start, margin = 120.dp)
                     top.linkTo(sectionLineal.bottom, margin = 20.dp)
-                }
+                }, fontWeight = FontWeight.Bold
             )
 
         }
