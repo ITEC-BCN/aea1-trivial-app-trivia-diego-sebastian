@@ -29,7 +29,11 @@ fun GameScreen(navController: NavController, viewModel: GameViewModel = viewMode
 ) {
 
     val preguntas = remember (viewModel.dificultadSeleccionada){
-        ProveedorPreguntas.obtenerPreguntasPorDificultad(viewModel.dificultadSeleccionada)
+        if(viewModel.categoriaSeleccionada == "Todas"){
+        ProveedorPreguntas.obtenerPreguntasPorDificultad(viewModel.dificultadSeleccionada)}
+        else {
+            ProveedorPreguntas.obtenerPreguntasPorCategoria(viewModel.categoriaSeleccionada)
+        }
     }
 
     LaunchedEffect(viewModel.preguntaActual) {

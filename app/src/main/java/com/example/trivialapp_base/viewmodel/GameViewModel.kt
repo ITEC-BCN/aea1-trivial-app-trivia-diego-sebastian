@@ -35,6 +35,9 @@ class GameViewModel : ViewModel() {
         private set
 
 
+    var categoriaSeleccionada by mutableStateOf("Todas")
+        private set
+
     private var timer: CountDownTimer? = null
     private val TIEMPO_POR_PREGUNTA = 10_000L
 
@@ -114,6 +117,10 @@ class GameViewModel : ViewModel() {
 
     fun setDificultad(dificultad: String) {
         dificultadSeleccionada = dificultad
+    }
+
+    fun setCategory(categoria: String) {
+        categoriaSeleccionada = categoria
     }
 
     fun resetJuego() {

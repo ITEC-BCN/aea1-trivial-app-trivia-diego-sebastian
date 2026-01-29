@@ -47,6 +47,7 @@ import com.example.trivialapp_base.viewmodel.GameViewModel
 @Composable
 fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
     var expanded: Boolean by remember { mutableStateOf(false) }
+    var expanded2: Boolean by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -63,7 +64,7 @@ fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
                 .fillMaxSize()
                 .padding(innerPadding).background(colorResource(id = R.color.Fondo))
         ) {
-            val (Logo,iconGame,btn1Ref,iconSettings,  difficultyMenu) = createRefs()
+            val (Logo,iconGame,btn1Ref,iconSettings, difficultyMenu, categoryMenu) = createRefs()
 
             Image(painter = painterResource(id = R.drawable.trivial_icon), contentDescription = "LogoApp",
                 Modifier.constrainAs(Logo){
@@ -106,23 +107,53 @@ fun MenuScreen(navController: NavController, viewModel: GameViewModel) {
                 }
             )
             {
+                Button(
+                    onClick = { expanded = true },
+                    modifier = Modifier
+                        .width(120.dp)
+                        .height(70.dp)
+                )
+                { Text(viewModel.dificultadSeleccionada, fontSize = 16.sp) }
+
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    listOf("Facil", "Medio", "Dificil").forEach { difficulty ->
+                        DropdownMenuItem(
+                            text = { Text(difficulty) },
+                            onClick = {
+                                expanded = false
+                                viewModel.setDificultad(difficulty)
+                            })
+                    }
+                }
+            }
+
+            Box(
+                modifier = Modifier.constrainAs(categoryMenu) {
+                    start.linkTo(iconSettings.end, margin = 25.dp)
+                    top.linkTo(difficultyMenu.bottom, margin = 55.dp)
+                }
+            )
+            {
             Button(
-                onClick = {expanded = true},
+                onClick = {expanded2 = true},
                 modifier = Modifier
                     .width(120.dp)
                     .height(70.dp))
-            { Text(viewModel.dificultadSeleccionada, fontSize = 16.sp)}
+            { Text(viewModel.categoriaSeleccionada, fontSize = 16.sp)}
 
             DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
+                expanded = expanded2,
+                onDismissRequest = { expanded2 = false }
             ) {
-                listOf("Facil", "Medio", "Dificil").forEach { difficulty ->
+                listOf("Todas", "Geografía", "Arte", "Deporte", "Historia", "Cine", "Videojuegos", "Ciencia").forEach { category ->
                     DropdownMenuItem(
-                        text = { Text(difficulty) },
+                        text = { Text(category) },
                         onClick = {
-                            expanded = false
-                            viewModel.setDificultad(difficulty)
+                            expanded2 = false
+                            viewModel.setCategory(category)
                         })
                 }}
             }
